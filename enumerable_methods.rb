@@ -1,23 +1,25 @@
 module MyEnumerable
-  value = true
   def all?
-    yield(item)
+    each { |item| return false unless yield(item) }
+    true
 end
 
 class MyList
-  @@value = true
   include MyEnumerable
   def initialize(list)
     @list = list
   end
 
-  def my_each
-    @list.each do |item|
-      @@value &&= yield(item)
+  def each(&block)
+    @list.each(&block)
     end
-    p @@value
   end
 end
 
-array = MyList.new([1, 2, 3])
-array.my_all { |item| item >= 1 }
+# list = MyList.new([1, 2, 3, 4])
+
+# puts list.any? { |num| num >= 3 }
+
+# puts list.all? { |num| num <= 3 }
+
+# p list.filter { |num| num.even? }
